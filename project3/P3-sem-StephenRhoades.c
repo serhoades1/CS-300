@@ -75,16 +75,22 @@ void *student(void *arg) {
     int id = (long long int)arg;
     for (int i = 0; i < 2; i++) {
         sleep(mytime(left, right));
+        printf("Student %d will call mutex_lock\n", id);
         pthread_mutex_lock(&student_lock);
         if (waiting < chairs) {
             waiting++;
             printf("Student %d waiting, %d chairs left.\n", id, chairs - waiting);
             pthread_mutex_unlock(&student_lock);
+            printf("Student %d call mutex_unlock\n", id);
             sem_post(&students_waiting);
+            printf("Student %d call sem_post(students_waiting)\n", id);
             sem_wait(&recruiter_ready);
+            printf("Student %d call sem_wait(recruiter_ready)\n", id);
             printf("Student %d being interviewed.\n", id);
-        } else {
+        }
+        else {
             pthread_mutex_unlock(&student_lock);
+            printf("Student %d call mutex_unlock\n", id);
             printf("Student %d found no available chairs, will study and return.\n", id);
         }
     }
@@ -113,10 +119,16 @@ void *student(void *arg) {
    // semaphore init... 
 
    //srand (time (NULL));   
-	
-    for (long long int i = 0; i < students; i++) {
-        pthread_create(&student_tids[i], NULL, student, (void *)i);
+
+   for (int i = 0; i < students; i++) {
+        int *id = malloc(sizeof(int));
+        *id = i + 1;
+        pthread_create(&student_tids[i], NULL, student, id);
     }
+	
+    // for (long long int i = 0; i < students; i++) {
+    //     pthread_create(&student_tids[i], NULL, student, (void *)i);
+    // }
 
     for (int i = 0; i < students; i++) {
         pthread_join(student_tids[i], NULL);
