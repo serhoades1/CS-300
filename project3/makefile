@@ -1,6 +1,6 @@
-P4-YourFirstLastName:  P4-YourFirstLastName.o mytime.o
-	gcc -Wall -std=c99 -lpthread -o P4-YourFirstLastName P4-YourFirstLastName.o mytime.o
-P4-YourFirstLastName.o: P4-YourFirstLastName.c mytime.h
-	gcc -c P4-YourFirstLastName.c -lpthread -Wall -std=c99
+P3-StephenRhoades:  P3-sem-StephenRhoades.o mytime.o
+	gcc -Wall -std=c99 -lpthread -o P3-sem-StephenRhoades P3-sem-StephenRhoades.o mytime.o
+P3-StephenRhoades.o: P3-StephenRhoades.c mytime.h
+	gcc -c P3-sem-StephenRhoades.c -lpthread -Wall -std=c99
 mytime.o: mytime.c
 	gcc -c mytime.c -Wall -std=c99
