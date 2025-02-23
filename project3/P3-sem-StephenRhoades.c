@@ -65,8 +65,9 @@ void *recruiter(void *arg) {
         sem_post(&recruiter_ready);
         printf("Recruiter call sem_post(recruiter_ready)\n");
         int t = mytime(left, right);
-        printf("Recruiter interviewing a student for %d sec\n", t);
+        printf("Recruiter to sleep %d sec;\n", t);
         sleep(t);
+        printf("Recruiter Id %lu wake up;\n", pthread_self());
     }
 	return NULL;
 }
@@ -74,7 +75,10 @@ void *recruiter(void *arg) {
 void *student(void *arg) {
     int id = (long long int)arg;
     for (int i = 0; i < 2; i++) {
-        sleep(mytime(left, right));
+        int t = mytime(left, right);
+        printf("Student %d to sleep %d sec;\n", id, t);
+        sleep(t);
+        printf("Student Id %d wake up;\n", id);
         printf("Student %d will call mutex_lock\n", id);
         pthread_mutex_lock(&student_lock);
         if (waiting < chairs) {
